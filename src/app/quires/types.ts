@@ -1,0 +1,1 @@
+export type BaseError = { code: number; path?: string; error: string; timestamp?: number };
