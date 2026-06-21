@@ -5,13 +5,13 @@ import type { AudioItem, AudioTrackData } from "@/app/types.ts";
 import { removeDuplicates } from "@/app/utils/utils.ts";
 
 interface UseFilterValidAudiosOptions {
-  concurrency?: number;        // Количество параллельных проверок
-  itemTimeout?: number;        // Таймаут на проверку одного трека (мс)
-  globalTimeout?: number;      // Общий таймаут на всю проверку (мс)
+  concurrency?: number;
+  itemTimeout?: number;
+  globalTimeout?: number;
 }
 
 interface UseFilterValidAudiosResult<T extends AudioTrackData> {
-  validItems: T[];             // Отфильтрованные валидные треки
+  validatedItems: T[];             // Отфильтрованные валидные треки
   isLoading: boolean;          // Идет ли проверка
 }
 
@@ -101,17 +101,23 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
           cleanupAudio();
           const validAudio = createValidResult(item, audio);
           urlCache.set(item.url, validAudio);
-          resolve(validAudio);
+          // if (validAudio.duration !== null && !isNaN(validAudio.duration)) urlCache.set(item.url, validAudio);
+          if (validAudio.duration !== null && !isNaN(validAudio.duration)) {
+            urlCache.set(item.url, validAudio);
+            resolve(validAudio);
+          }
+
         };
 
         const handleError = () => {
+          console.log("err");
           clearTimeout(timeoutId);
           itemTimeoutsRef.current.delete(timeoutId);
           abortControllersRef.current.delete(controller);
           pendingUrls.delete(item.url);
           cleanupAudio();
           const invalidAudio = createInvalidResult(item);
-          urlCache.set(item.url,  invalidAudio);
+          urlCache.set(item.url, invalidAudio);
           resolve(invalidAudio);
         };
 
@@ -122,7 +128,8 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
         try {
           audio.load();
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) { /* empty */ }
+        } catch (error) { /* empty */
+        }
       });
 
       pendingUrls.set(item.url, validationPromise);
@@ -198,23 +205,24 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
     };
   }, [startValidation]);
 
-  return { isLoading, validItems: duplicatesRemoved };
+  return { isLoading, validatedItems: duplicatesRemoved };
 };
 
-
 function createValidResult<T extends AudioItem>(item: T, audio: HTMLAudioElement): AudioTrackData {
+  console.log("Duration: " + audio.duration);
   return {
     ...item,
     isValid: true,
     audioElem: audio,
-    duration: audio.duration
-  }
+    duration: audio.duration,
+  };
 }
+
 function createInvalidResult<T extends AudioItem>(item: T): AudioTrackData {
   return {
     ...item,
     duration: null,
     isValid: false,
-    audioElem: null
-  }
+    audioElem: null,
+  };
 }

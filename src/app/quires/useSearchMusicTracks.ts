@@ -8,15 +8,16 @@ import type { BaseError } from "@/app/quires/types.ts";
 import { getMusicTracks } from "@/app/quires/getMusicTracks.ts";
 
 type SearchMusicTracksProps = {
-  trackName: string;
+  trackName: null | string;
 }
 
 export const useSearchMusicTracks = ({ trackName }: SearchMusicTracksProps) => {
+
   return useQuery<AxiosResponse<AudioItem[]>, AxiosError<BaseError>>({
-    enabled: true,
+    enabled: trackName !== null,
     queryKey: ["search-music", { trackName }],
     queryFn: () => getMusicTracks({
-      query: trackName,
+      query: trackName ?? "",
     }),
   });
 };
