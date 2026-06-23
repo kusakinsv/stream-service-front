@@ -3,19 +3,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Stack, Button, TextField, InputAdornment } from "@mui/material";
 
 import { getColors } from "@/app/theme/colors.ts";
+import { useSearchStore } from "@/app/store/searchState.ts";
 import { SearchPanelStyled } from "@/pages/searchMusicPage/SearchPanel.styled.ts";
 
-interface SearchPanelProps {
-  onSearch: (trackName: string) => void;
-}
-
-export const SearchPanel = ({onSearch}: SearchPanelProps) => {
+export const SearchPanel = () => {
+  const {setCurrentSearchTrack } = useSearchStore();
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleSearchClick = () => {
-    onSearch(searchValue);
-    setSearchValue("");
-
+    setCurrentSearchTrack(searchValue);
+    // setSearchValue("");
   };
 
   const handleChangeTextField = (event: React.ChangeEvent<HTMLInputElement>) => {

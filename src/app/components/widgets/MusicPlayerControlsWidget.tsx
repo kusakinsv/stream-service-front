@@ -8,18 +8,18 @@ import SkipPreviousRoundedIcon from "@mui/icons-material/SkipPreviousRounded";
 import { AudioProgress } from "@/app/components/widgets/AudioProgress.tsx";
 import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
 
+const sxIconsArrow = {
+  fontSize: "3rem",
+  cursor: "pointer",
+};
+
+const sxIconsPlayPause = {
+  fontSize: "4rem",
+  cursor: "pointer",
+};
+
 export const MusicPlayerControlsWidget = () => {
   const state = useAudioStore();
-
-  const sxIconsArrow = {
-    fontSize: "3rem",
-    cursor: "pointer",
-  };
-
-  const sxIconsPlayPause = {
-    fontSize: "4rem",
-    cursor: "pointer",
-  };
 
   const onNextHandler = () => {
     state.next();

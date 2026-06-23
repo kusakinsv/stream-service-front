@@ -14,8 +14,8 @@ type SearchMusicTracksProps = {
 export const useSearchMusicTracks = ({ trackName }: SearchMusicTracksProps) => {
 
   return useQuery<AxiosResponse<AudioItem[]>, AxiosError<BaseError>>({
-    enabled: trackName !== null,
-    queryKey: ["search-music", { trackName }],
+    enabled: !!trackName,
+    queryKey: ["search-music", {trackName}],
     queryFn: () => getMusicTracks({
       query: trackName ?? "",
     }),

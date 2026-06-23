@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Box, Stack } from "@mui/material";
 
 import type { AudioTrackData } from "@/app/types.ts";
 
 import { removeDuplicates } from "@/app/utils/utils.ts";
+import { useSearchStore } from "@/app/store/searchState.ts";
 import { SearchPanel } from "@/pages/searchMusicPage/SearchPanel.tsx";
 import { useSearchMusicTracks } from "@/app/quires/useSearchMusicTracks.ts";
 import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
@@ -13,9 +14,9 @@ import { MusicPlayerControlsWidget } from "@/app/components/widgets/MusicPlayerC
 
 
 export const SearchMusicWidget = () => {
-  const [currentTrackSearch, setCurrentTrackSearch] = useState<null | string>(null);
+  const { currentSearchTrack} = useSearchStore();
 
-  const { data, isLoading } = useSearchMusicTracks({ trackName: currentTrackSearch });
+  const { data, isLoading } = useSearchMusicTracks({ trackName: currentSearchTrack });
 
   const searchedTracks = data?.data ?? [];
   const distinct = useMemo(() => removeDuplicates(searchedTracks), [searchedTracks]);
@@ -36,11 +37,8 @@ export const SearchMusicWidget = () => {
     }
   };
 
-  const onSearchHandler = (trackName: string) => {
-    setCurrentTrackSearch(trackName)
-  }
 
-  // console.log(validatedItems.length);
+   // console.log(validatedItems.length);
   const trackListFiltered = useMemo(() => {
       const audioTrackData = validatedItems.filter(item => item.isValid);
       setCurrentPlaylist(audioTrackData);
@@ -68,7 +66,7 @@ export const SearchMusicWidget = () => {
       justifyContent: "space-between",
     }}>
       <Stack spacing={1} useFlexGap={true}>
-        <SearchPanel onSearch={onSearchHandler}/>
+        <SearchPanel/>
         <Box>
           <Stack>
             {isLoading ?? validateIsLoading ? "Loading..." : trackList}
