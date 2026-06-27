@@ -7,5 +7,5 @@ type SearchMusicRequest = {
 }
 
 export const getMusicTracks = (params: SearchMusicRequest) => {
-  return streamServiceClient.get<AudioItem[]>("/api/v1/search", {params})
+  return streamServiceClient.get<AudioItem[]>("/search-service/api/v1/search", {params})
 };

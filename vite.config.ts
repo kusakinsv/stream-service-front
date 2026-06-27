@@ -12,10 +12,15 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     proxy: {
-      "/api/v1": {
+      "/search-service/api/v1": {
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/v1/, ""),
-        target: "http://localhost:8080/api/v1",
+        rewrite: (path) => path.replace(/^\/search-service/, ""),
+        target: "http://localhost:8102",
+      },
+      "/stream-service/api/v1/": {
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/stream-service/, ""),
+        target: "http://localhost:8101",
       },
     },
   },

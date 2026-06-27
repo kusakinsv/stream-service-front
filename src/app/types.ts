@@ -1,6 +1,7 @@
 export type AudioItem = {
   url: string;
   name: string;
+  isNeedProxy: boolean;
 }
 
 export type SearchedTrack = {
@@ -18,6 +19,7 @@ export type AudioTrackData = {
   url: string,
   name: string,
   isValid: boolean;
+  isNeedProxy: boolean;
   duration: null | number;
   audioElem: null | HTMLAudioElement;
 }

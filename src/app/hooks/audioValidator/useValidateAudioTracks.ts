@@ -15,6 +15,9 @@ interface UseFilterValidAudiosResult<T extends AudioTrackData> {
   isLoading: boolean;          // Идет ли проверка
 }
 
+const PROXY_SERVER_URL = "http://localhost:8123";
+const PROXY_SERVER_PART = "/api/v1/proxy?url=";
+
 /**
  * из-за конкуррентности может вызывать дубли
  */
@@ -124,7 +127,7 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
         audio = new Audio();
         audio.addEventListener("canplay", handleSuccess);
         audio.addEventListener("error", handleError);
-        audio.src = item.url;
+        audio.src = item.isNeedProxy ? addProxy(item.url) : item.url;
         try {
           audio.load();
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -225,4 +228,8 @@ function createInvalidResult<T extends AudioItem>(item: T): AudioTrackData {
     isValid: false,
     audioElem: null,
   };
+}
+
+function addProxy(url: string) {
+  return PROXY_SERVER_URL + PROXY_SERVER_PART + url;
 }
