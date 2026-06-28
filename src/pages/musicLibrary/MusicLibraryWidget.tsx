@@ -2,9 +2,10 @@ import { Box, Stack } from "@mui/material";
 
 import type { AudioTrackData } from "@/app/types.ts";
 
-import { useGetMusicLibrary } from "@/app/quires/useLibrary.ts";
+import { mapToPlayListItem } from "@/app/utils/utils.ts";
+import { PlayListTrackItem } from "@/pages/musicLibrary/PlayListTrackItem.tsx";
 import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
-import { PlayListTrackItem } from "@/pages/musicLibrary/components/PlayListTrackItem.tsx";
+import { useGetMusicLibrary, useDeleteTrackFromLibrary } from "@/app/quires/useLibrary.ts";
 import { useValidateAudioTracks } from "@/app/hooks/audioValidator/useValidateAudioTracks.ts";
 import { MusicPlayerControlsWidget } from "@/app/components/widgets/MusicPlayerControlsWidget.tsx";
 
@@ -12,6 +13,7 @@ import { MusicPlayerControlsWidget } from "@/app/components/widgets/MusicPlayerC
 export const MusicLibraryWidget = () => {
 
     const {data, isLoading} = useGetMusicLibrary();
+    const {mutate: deleteItem} = useDeleteTrackFromLibrary();
 
     const { isPlaying, currentTrack, setCurrentTrack, togglePlay} = useAudioStore();
 
@@ -29,6 +31,10 @@ export const MusicLibraryWidget = () => {
         }
     };
 
+    const handleDelete = (item: AudioTrackData) => {
+      deleteItem(mapToPlayListItem(item));
+    }
+
     const playList = validatedItems
       .sort((o1, o2) => (o1.position ?? Infinity) - (o2.position ?? Infinity))
       .map(item =>
@@ -38,6 +44,7 @@ export const MusicLibraryWidget = () => {
         currentTrackUrl={currentTrack?.url}
         key={item.url}
         onClick={() => onItemPlayButtonClickHandler(item, validatedItems)}
+        onDeleteClick={() => handleDelete(item)}
       />)
 
     return(

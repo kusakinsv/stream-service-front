@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { Box, Stack } from "@mui/material";
 
-import type { PlayListItem, AudioTrackData } from "@/app/types.ts";
+import type { AudioTrackData } from "@/app/types.ts";
 
-import { removeDuplicates } from "@/app/utils/utils.ts";
 import { useAddTrackToLibrary } from "@/app/quires/useLibrary.ts";
 import { SearchPanel } from "@/pages/searchMusicPage/SearchPanel.tsx";
+import { removeDuplicates, mapToPlayListItem } from "@/app/utils/utils.ts";
 import { useSearchMusicTracks } from "@/app/quires/useSearchMusicTracks.ts";
 import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
 import { TrackItem } from "@/pages/searchMusicPage/components/trackItem/TrackItem.tsx";
@@ -43,7 +43,6 @@ export const SearchMusicWidget = () => {
   };
 
   const handleAddTrackToLibrary = (item: AudioTrackData) => {
-
     addTrackToLibrary(mapToPlayListItem(item));
   };
 
@@ -91,13 +90,3 @@ export const SearchMusicWidget = () => {
     </Stack>
   );
 };
-
-const mapToPlayListItem = (trackData: AudioTrackData): PlayListItem => {
-  return {
-    url: trackData.url,
-    duration: trackData.duration,
-    title: trackData.title,
-    isNeedProxy: trackData.isNeedProxy,
-  };
-};
-

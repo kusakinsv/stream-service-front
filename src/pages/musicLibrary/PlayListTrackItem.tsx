@@ -1,6 +1,7 @@
-import { Box, Stack } from "@mui/material";
 import PauseIcon from "@mui/icons-material/Pause";
+import { Box, Stack, IconButton } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import type { AudioTrackData } from "@/app/types.ts";
 
@@ -12,10 +13,11 @@ interface ITrackItemProps {
   isPlaying: boolean;
   currentTrackUrl: string | undefined;
   onClick?: () => void;
+  onDeleteClick: (item: AudioTrackData) => void;
 }
 
 export const PlayListTrackItem = (
-  {item, isPlaying, currentTrackUrl, onClick}: ITrackItemProps) => {
+  {item, isPlaying, currentTrackUrl, onClick, onDeleteClick}: ITrackItemProps) => {
 
   const formattedDuration = item.duration ? formatDuration(item.duration) : "--:--";
 
@@ -28,6 +30,10 @@ export const PlayListTrackItem = (
       padding: "0.5rem 1rem 0.5rem 1rem",
       backgroundColor: getColors().grey.panelsDark,
     }}>
+      <Stack spacing={2} direction="row" sx={{
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}>
       <Stack spacing={2} direction="row" sx={{
         alignItems: "center",
         justifyContent: "flex-start",
@@ -45,6 +51,16 @@ export const PlayListTrackItem = (
             {formattedDuration}
           </Box>
         </Stack>
+      </Stack>
+        <IconButton onClick={() => onDeleteClick(item)}>
+          <DeleteForeverIcon fontSize="large" sx={{
+            color: 'grey.500',
+            "&:hover": {
+              // backgroundColor: "red",
+              color: getColors().red.error
+            }
+          }}/>
+        </IconButton>
       </Stack>
     </Box>
   );

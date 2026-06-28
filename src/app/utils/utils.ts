@@ -1,4 +1,4 @@
-import type { AudioItem, AudioTrackData } from "@/app/types.ts";
+import type { AudioItem, PlayListItem, AudioTrackData } from "@/app/types.ts";
 
 export const removeDuplicates = <T extends AudioItem>(values: T[]) => {
   const map = new Map<string, T>();
@@ -20,3 +20,13 @@ export function formatTime(seconds: number): string {
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
+
+export const mapToPlayListItem = (trackData: AudioTrackData): PlayListItem => {
+  return {
+    url: trackData.url,
+    duration: trackData.duration,
+    title: trackData.title,
+    isNeedProxy: trackData.isNeedProxy,
+  };
+};
+

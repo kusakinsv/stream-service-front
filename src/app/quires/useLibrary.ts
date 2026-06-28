@@ -9,8 +9,8 @@ import {
   addTrackToLibrary,
   getMyMusicLibrary,
   deleteTrackFromLibrary,
-  type PlayListMusicResponse,
-} from "@/app/quires/libraryQuires.tsx";
+  deleteTrackFromLibraryById, type PlayListMusicResponse,
+} from "@/app/quires/libraryQuires.ts";
 
 
 export const useGetMusicLibrary = () => {
@@ -28,8 +28,14 @@ export const useAddTrackToLibrary = () => {
 };
 
 //todo переделать на url
-export const useDeleteTrackFromLibrary = () => {
+export const useDeleteTrackFromLibraryById = () => {
   return useMutation<AxiosResponse<PlayListMusicResponse>, AxiosError<BaseError>, number>({
-    mutationFn: (position: number) => deleteTrackFromLibrary(position),
+    mutationFn: (position: number) => deleteTrackFromLibraryById(position),
+  });
+};
+
+export const useDeleteTrackFromLibrary = () => {
+  return useMutation<AxiosResponse<PlayListMusicResponse>, AxiosError<BaseError>, PlayListItem>({
+    mutationFn: (item: PlayListItem) => deleteTrackFromLibrary(item),
   });
 };

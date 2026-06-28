@@ -23,6 +23,14 @@ export const getColors = () => {
         10: "#FFFFFF1A",
         80: "#FFFFFFCC",
       },
-    }
+    },
+    red: {
+      main: "#E33F2A",
+      text: "#FB3C3C",
+      error: "#E34F4F",
+      blur: "drop-shadow(0 0 4px #E33F2A)",
+      gradient: "linear-gradient(90deg, #D52B20 0%, #FB3C3C 67.04%)",
+      gradientChart: "linear-gradient(90deg, rgba(213, 43, 32, 0) 0%, #FB3C3C 99.89%)",
+    },
   }
 }
