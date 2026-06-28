@@ -1,6 +1,5 @@
+import { Box, Stack } from "@mui/material";
 import PauseIcon from "@mui/icons-material/Pause";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Box, Stack, IconButton } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import type { AudioTrackData } from "@/app/types.ts";
@@ -12,12 +11,11 @@ interface ITrackItemProps {
   item: AudioTrackData;
   isPlaying: boolean;
   currentTrackUrl: string | undefined;
-  onPlayClick?: () => void;
-  onAddClick: (item: AudioTrackData) => void;
+  onClick?: () => void;
 }
 
-export const TrackItem = (
-  {item, isPlaying, currentTrackUrl, onPlayClick, onAddClick}: ITrackItemProps) => {
+export const PlayListTrackItem = (
+  {item, isPlaying, currentTrackUrl, onClick}: ITrackItemProps) => {
 
   const formattedDuration = item.duration ? formatDuration(item.duration) : "--:--";
 
@@ -31,14 +29,10 @@ export const TrackItem = (
       backgroundColor: getColors().grey.panelsDark,
     }}>
       <Stack spacing={2} direction="row" sx={{
-      alignItems: "center",
-      justifyContent: "space-between",
-    }}>
-      <Stack spacing={2} direction="row" sx={{
         alignItems: "center",
         justifyContent: "flex-start",
       }}>
-        <CircleButton disabled={!item.isValid} onClick={onPlayClick}>
+        <CircleButton disabled={!item.isValid} onClick={onClick}>
           {(currentTrackUrl === item.url && isPlaying) ? <PauseIcon /> : <PlayArrowIcon />}
         </CircleButton>
         <Stack spacing={2} direction="row" sx={{
@@ -51,16 +45,6 @@ export const TrackItem = (
             {formattedDuration}
           </Box>
         </Stack>
-      </Stack>
-        <IconButton onClick={() => onAddClick(item)}>
-          <AddBoxIcon fontSize={"large"} sx={{
-            color: 'grey.500',
-          "&:hover": {
-            // backgroundColor: "red",
-            color: getColors().blue.main
-          }
-        }}/>
-        </IconButton>
       </Stack>
     </Box>
   );

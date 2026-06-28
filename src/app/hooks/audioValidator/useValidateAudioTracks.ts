@@ -212,22 +212,30 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
 };
 
 function createValidResult<T extends AudioItem>(item: T, audio: HTMLAudioElement): AudioTrackData {
-  console.log("Duration: " + audio.duration);
-  return {
+   const result = {
     ...item,
     isValid: true,
     audioElem: audio,
     duration: audio.duration,
-  };
+  } as AudioTrackData;
+
+  if ('position' in item && (typeof item.position === 'number' || typeof item.position === 'undefined')) {
+    result.position = item.position;
+  }
+  return result;
 }
 
 function createInvalidResult<T extends AudioItem>(item: T): AudioTrackData {
-  return {
+  const result = {
     ...item,
     duration: null,
     isValid: false,
     audioElem: null,
-  };
+  } as AudioTrackData;
+  if ('position' in item && (typeof item.position === 'number' || typeof item.position === 'undefined')) {
+    result.position = item.position;
+  }
+  return result
 }
 
 function addProxy(url: string) {

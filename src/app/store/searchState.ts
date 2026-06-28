@@ -6,6 +6,8 @@ interface SearchState {
   setCurrentSearchTrack: (value: string) => void;
 }
 
+//todo - удалить, если не используется
+
 export const useSearchStore = create<SearchState>()(
   subscribeWithSelector(set => ({
     currentSearchTrack: "",

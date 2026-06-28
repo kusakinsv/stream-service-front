@@ -1,25 +1,33 @@
 export type AudioItem = {
   url: string;
-  name: string;
+  title: string;
   isNeedProxy: boolean;
 }
 
 export type SearchedTrack = {
   url: string;
-  name?: null | string;
+  title?: null | string;
 }
 
 export type MusicTrack = {
   url: string;
-  name: string;
+  title: string;
   duration?: null | string;
 }
 
 export type AudioTrackData = {
+  position?: number;
   url: string,
-  name: string,
+  title: string,
   isValid: boolean;
   isNeedProxy: boolean;
   duration: null | number;
   audioElem: null | HTMLAudioElement;
+}
+
+export type PlayListItem = {
+  title: string,
+  url: string,
+  duration: null | number,
+  isNeedProxy: boolean
 }

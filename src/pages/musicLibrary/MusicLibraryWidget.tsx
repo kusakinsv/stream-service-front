@@ -1,0 +1,58 @@
+import { Box, Stack } from "@mui/material";
+
+import type { AudioTrackData } from "@/app/types.ts";
+
+import { useGetMusicLibrary } from "@/app/quires/useLibrary.ts";
+import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
+import { PlayListTrackItem } from "@/pages/musicLibrary/components/PlayListTrackItem.tsx";
+import { useValidateAudioTracks } from "@/app/hooks/audioValidator/useValidateAudioTracks.ts";
+import { MusicPlayerControlsWidget } from "@/app/components/widgets/MusicPlayerControlsWidget.tsx";
+
+
+export const MusicLibraryWidget = () => {
+
+    const {data, isLoading} = useGetMusicLibrary();
+
+    const { isPlaying, currentTrack, setCurrentTrack, togglePlay} = useAudioStore();
+
+    const { isLoading: isValidationLoading, validatedItems } = useValidateAudioTracks(data?.data.positions ?? [], {
+        concurrency: 5,
+        itemTimeout: 5000,
+        globalTimeout: 12000,
+    });
+
+    const onItemPlayButtonClickHandler = (item: AudioTrackData, trackList: AudioTrackData[]) => {
+        if (currentTrack?.url !== item.url) {
+            setCurrentTrack(item, trackList);
+        } else {
+            togglePlay();
+        }
+    };
+
+    const playList = validatedItems
+      .sort((o1, o2) => (o1.position ?? Infinity) - (o2.position ?? Infinity))
+      .map(item =>
+      <PlayListTrackItem
+        item={item}
+        isPlaying={isPlaying}
+        currentTrackUrl={currentTrack?.url}
+        key={item.url}
+        onClick={() => onItemPlayButtonClickHandler(item, validatedItems)}
+      />)
+
+    return(
+      <Stack sx={{
+          height: "100%",
+          justifyContent: "space-between",
+      }}>
+        <Stack spacing={1} useFlexGap={true}>
+            <Box>
+                <Stack>
+                    {isLoading || isValidationLoading ? "Loading..." : playList}
+                </Stack>
+            </Box>
+        </Stack>
+        <MusicPlayerControlsWidget />
+      </Stack>
+    );
+}
