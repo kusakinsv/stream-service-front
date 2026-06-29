@@ -5,6 +5,7 @@ export const getColors = () => {
       background: "#222222",
       panelsDark: "#2b2d31",
       textSecondary: "#b5bac1",
+      light: "#cfd6dc"
     },
     blue: {
       dark: '#4e34f7',       // темный оттенок для нажатых кнопок

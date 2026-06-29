@@ -113,7 +113,6 @@ export const useValidateAudioTracks = <T extends AudioItem>(items: T[], {
         };
 
         const handleError = () => {
-          console.log("err");
           clearTimeout(timeoutId);
           itemTimeoutsRef.current.delete(timeoutId);
           abortControllersRef.current.delete(controller);
