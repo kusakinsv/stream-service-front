@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
 import { useLocation, useNavigate } from "react-router";
-import { Paper, AppBar, Toolbar, useTheme, Typography, BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { Paper, AppBar, useTheme, BottomNavigation, BottomNavigationAction } from "@mui/material";
 
 import { navItems } from "@/app/components/navigateBar/NavBar.tsx";
 
@@ -21,16 +21,16 @@ export const MobileBar = ({ children }: PropsWithChildren) => {
   return (
     <>
     <AppBar position="sticky" color="primary" elevation={2} sx={{ display: { xs: "flex", md: "none" } }}>
-      <Toolbar>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, fontWeight: 700, cursor: "pointer" }}
-          onClick={() => handleNavigation("/")}
-        >
-          MyApp
-        </Typography>
-      </Toolbar>
+      {/*<Toolbar>*/}
+      {/*  <Typography*/}
+      {/*    variant="h6"*/}
+      {/*    component="div"*/}
+      {/*    sx={{ flexGrow: 1, fontWeight: 700, cursor: "pointer" }}*/}
+      {/*    onClick={() => handleNavigation("/")}*/}
+      {/*  >*/}
+      {/*    MyApp*/}
+      {/*  </Typography>*/}
+      {/*</Toolbar>*/}
     </AppBar>
     {children}
 

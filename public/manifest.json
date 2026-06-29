@@ -1,0 +1,7 @@
+{
+  "name": "Stream-Service",
+  "short_name": "Stream",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/"
+}

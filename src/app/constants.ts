@@ -1,0 +1,1 @@
+export const PROXY_SERVER_URL = "http://192.168.0.110:8123";

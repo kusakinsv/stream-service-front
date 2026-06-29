@@ -23,9 +23,9 @@ export const SearchMusicWidget = () => {
   const distinct = useMemo(() => removeDuplicates(searchedTracks), [searchedTracks]);
 
   const { isLoading, validatedItems } = useValidateAudioTracks(distinct, {
-    concurrency: 8,
-    itemTimeout: 6000,
-    globalTimeout: 15000,
+    concurrency: 5,
+    itemTimeout: 10000,
+    globalTimeout: 30000,
   });
 
   const { isPlaying, currentTrack, setCurrentTrack, togglePlay, setCurrentPlaylist } = useAudioStore();

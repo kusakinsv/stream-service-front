@@ -2,6 +2,7 @@ import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 
 import type { AudioItem, AudioTrackData } from "@/app/types.ts";
 
+import { PROXY_SERVER_URL } from "@/app/constants.ts";
 import { removeDuplicates } from "@/app/utils/utils.ts";
 
 interface UseFilterValidAudiosOptions {
@@ -15,7 +16,6 @@ interface UseFilterValidAudiosResult<T extends AudioTrackData> {
   isLoading: boolean;          // Идет ли проверка
 }
 
-const PROXY_SERVER_URL = "http://localhost:8123";
 const PROXY_SERVER_PART = "/api/v1/proxy?url=";
 
 /**

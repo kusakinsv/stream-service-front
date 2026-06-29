@@ -34,7 +34,10 @@ export const AudioProgress = ({ currentTime, duration, onChangeProgress }: Audio
   return (
     <Box sx={{
       width: "100%",
-      padding: "0 5rem",
+      padding: {
+        md: "0 5rem",
+        xs: "0 2.5rem"
+      }
     }}>
       <Box sx={{
         position: "relative",
@@ -47,6 +50,7 @@ export const AudioProgress = ({ currentTime, duration, onChangeProgress }: Audio
             position: "absolute",
             top: 0,
             left: 0,
+            bottom: 0,
             width: "100%",
             height: 8,
             borderRadius: 4,
@@ -59,12 +63,16 @@ export const AudioProgress = ({ currentTime, duration, onChangeProgress }: Audio
         <Slider value={isDragging ? localProgress : progress} min={0} max={100}
                 sx={{
                   position: "absolute",
-                  top: -12,
+                  bottom: 0,
+                  top: {xs: -16.5, sm: -9, md: -9, lg: -9, },
                   left: 0,
-                  width: "100%",
+                  height: 0,
+                  // margin: "0 0 0 0",
+                  // padding: "0 0 0 0",
+                  // width: "100%",
                   "& .MuiSlider-track": { display: "none" },
                   "& .MuiSlider-rail": { display: "none" },
-                  // '& .MuiSlider-thumb': { width: 0, height: 0 },
+                  // '& .MuiSlider-thumb': { width: "1.5rem", height: "1.5rem" },
                 }}
                 onChange={(_, v) => handleDragChange(_, v as number)}
                 onMouseDown={handleDragStart}
@@ -72,6 +80,7 @@ export const AudioProgress = ({ currentTime, duration, onChangeProgress }: Audio
           /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
           // @ts-expect-error
                 onChangeCommitted={(_, v) => handleDragEnd(_, v as number)}
+                // onTouchEnd={() => handleDragEnd}
         >
         </Slider>
       </Box>
