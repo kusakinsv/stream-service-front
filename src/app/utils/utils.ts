@@ -26,7 +26,7 @@ export const mapToPlayListItem = (trackData: AudioTrackData): PlayListItem => {
     url: trackData.url,
     duration: trackData.duration,
     title: trackData.title,
-    isNeedProxy: trackData.isNeedProxy,
+    isNeedProxy: trackData.isNeedProxy ?? false,
   };
 };
 

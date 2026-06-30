@@ -33,7 +33,7 @@ interface AudioPlayerState {
 
 export const useAudioStore = create<AudioPlayerState>()(
   subscribeWithSelector((set, get) => ({
-    volume: 0,
+    volume: Number.parseFloat(localStorage.getItem("audio_volume") ?? "0.6") ??  0.6,
     duration: 0,
     error: null,
     currentTime: 0,
@@ -62,8 +62,9 @@ export const useAudioStore = create<AudioPlayerState>()(
         currentPlaylist: ofPlaylist,
       });
 
-      const { audioRef } = get();
+      const { audioRef , volume} = get();
       if (audioRef) {
+        audioRef.volume = volume/100;
         audioRef.onended = () => {
           get().handleTrackEnd();
         };
@@ -129,12 +130,12 @@ export const useAudioStore = create<AudioPlayerState>()(
 
     setVolume: (volume) => {
       const { audioRef } = get();
-      const newVolume = Math.max(0, Math.min(1, volume));
-      if (audioRef) audioRef.volume = newVolume;
-      set({ volume: newVolume });
+      const refVolume = Math.max(0, Math.min(1, volume/100));
+      if (audioRef) audioRef.volume = refVolume;
+      set({ volume: volume });
 
       // Сохраняем громкость в localStorage
-      localStorage.setItem("audio_volume", String(newVolume));
+      localStorage.setItem("audio_volume", String(volume));
     },
 
     handleTrackEnd: () => {

@@ -36,55 +36,63 @@ export const AudioProgress = ({ currentTime, duration, onChangeProgress }: Audio
       width: "100%",
       padding: {
         md: "0 5rem",
-        xs: "0 2.5rem"
-      }
+        xs: "0 2.5rem",
+      },
     }}>
       <Box sx={{
-        position: "relative",
+        // display: "flex",
+        alignItems: "center", /* Центрирует элементы по вертикали */
+        // justifyContent: "center", /* Горизонтальное выравнивание (опционально) */
+        height:" 40px", /* Задайте нужную высоту контейнеру */
       }}>
+        <Box sx={{
+          minHeight: "50px",
+          position: "relative",
+        }}>
 
-        <LinearProgress
-          variant="determinate"
-          value={progress}
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            bottom: 0,
-            width: "100%",
-            height: 8,
-            borderRadius: 4,
-            "& .MuiLinearProgress-bar": {
+          <LinearProgress
+            variant="determinate"
+            value={progress}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: 0,
+              bottom: 0,
+              width: "100%",
+              height: 8,
               borderRadius: 4,
-              transition: "transform 0.05s linear", // Плавное обновление
-            },
-          }}
-        />
-        <Slider value={isDragging ? localProgress : progress} min={0} max={100}
-                sx={{
-                  position: "absolute",
-                  bottom: 0,
-                  top: {xs: -16.5, sm: -9, md: -9, lg: -9, },
-                  left: 0,
-                  height: 0,
-                  // margin: "0 0 0 0",
-                  // padding: "0 0 0 0",
-                  // width: "100%",
-                  "& .MuiSlider-track": { display: "none" },
-                  "& .MuiSlider-rail": { display: "none" },
-                  // '& .MuiSlider-thumb': { width: "1.5rem", height: "1.5rem" },
-                }}
-                onChange={(_, v) => handleDragChange(_, v as number)}
-                onMouseDown={handleDragStart}
-                onTouchStart={handleDragStart}
-          /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-          // @ts-expect-error
-                onChangeCommitted={(_, v) => handleDragEnd(_, v as number)}
-                // onTouchEnd={() => handleDragEnd}
-        >
-        </Slider>
+              "& .MuiLinearProgress-bar": {
+                borderRadius: 4,
+                transition: "transform 0.05s linear", // Плавное обновление
+              },
+            }}
+          />
+          <Slider value={isDragging ? localProgress : progress} min={0} max={100}
+                  sx={{
+                    position: "absolute",
+                    bottom: 0,
+                    // top: "30%",
+                    // top: {xs: "10%"},
+                    left: 0,
+                    height: 16,
+                    // margin: "0 0 0 0",
+                    // padding: "0 0 0 0",
+                    // width: "100%",
+                    "& .MuiSlider-track": { display: "none" },
+                    "& .MuiSlider-rail": { display: "none" },
+                    // '& .MuiSlider-thumb': { width: "1.5rem", height: "1.5rem" },
+                  }}
+                  onChange={(_, v) => handleDragChange(_, v as number)}
+                  onMouseDown={handleDragStart}
+                  onTouchStart={handleDragStart}
+            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+            // @ts-expect-error
+                  onChangeCommitted={(_, v) => handleDragEnd(_, v as number)}
+            // onTouchEnd={() => handleDragEnd}
+          >
+          </Slider>
+        </Box>
       </Box>
-
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
         <Typography variant="caption">
           {formatTime(currentTime)}
