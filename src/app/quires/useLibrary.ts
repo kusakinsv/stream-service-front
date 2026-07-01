@@ -9,15 +9,61 @@ import {
   addTrackToLibrary,
   getMyMusicLibrary,
   deleteTrackFromLibrary,
-  deleteTrackFromLibraryById, type PlayListMusicResponse,
+  deleteTrackFromLibraryById,
+  type PlayListMusicResponse,
 } from "@/app/quires/libraryQuires.ts";
 
+const STORAGE_KEY = "library";
+
+const EMPTY_LIST = {
+  title: undefined,
+  positions: [],
+} as PlayListMusicResponse;
+
+const saveToStorage = (data: PlayListMusicResponse) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.error("Error saving to localStorage:", error);
+  }
+};
+
+const loadFromStorage = () => {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) as PlayListMusicResponse : EMPTY_LIST;
+};
 
 export const useGetMusicLibrary = () => {
-  return useQuery<AxiosResponse<PlayListMusicResponse>, AxiosError<BaseError>>({
+
+  return useQuery<PlayListMusicResponse, AxiosError<BaseError>>({
     enabled: true,
     queryKey: ["library"],
-    queryFn: () => getMyMusicLibrary(),
+    queryFn: async () => {
+      try {
+        const { data } = await getMyMusicLibrary();
+        const hasData = data?.positions?.length > 0;
+
+        if (hasData) {
+          saveToStorage(data);
+          return data;
+        }
+
+        const cached = loadFromStorage();
+        if (cached?.positions?.length > 0) {
+          return cached;
+        }
+
+        return EMPTY_LIST
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (error) {
+        const cached = loadFromStorage();
+        if (cached?.positions?.length > 0) {
+          return cached;
+        }
+
+        return EMPTY_LIST
+      }
+    },
   });
 };
 

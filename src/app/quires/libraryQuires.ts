@@ -3,7 +3,7 @@ import type { PlayListItem } from "@/app/types.ts";
 import { streamServiceClient } from "@/app/api/client.ts";
 
 export type PlayListMusicResponse = {
-  title: string,
+  title: string | undefined,
   positions: PlayListItem[]
 }
 

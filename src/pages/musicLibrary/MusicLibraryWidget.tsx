@@ -17,7 +17,7 @@ export const MusicLibraryWidget = () => {
 
     const { isPlaying, currentTrack, setCurrentTrack, togglePlay} = useAudioStore();
 
-    const { isLoading: isValidationLoading, validatedItems } = useValidateAudioTracks(data?.data.positions ?? [], {
+    const { isLoading: isValidationLoading, validatedItems } = useValidateAudioTracks(data?.positions ?? [], {
         concurrency: 5,
         itemTimeout: 5000,
         globalTimeout: 12000,
