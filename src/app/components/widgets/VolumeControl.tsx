@@ -1,5 +1,5 @@
-import { useMemo, useState, useCallback } from "react";
-import { Box, Slider, Typography } from "@mui/material";
+import { Box, Slider } from "@mui/material";
+import { useMemo, useCallback } from "react";
 
 import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState.ts";
 
@@ -7,13 +7,6 @@ import { useAudioStore } from "@/app/store/GlobalPlayerStore/useAudioPlayerState
 export const VolumeControl = () => {
   const {setVolume, audioRef, volume} = useAudioStore();
   const defaultVolume = useMemo<number>(()=> volume, []);
-
-  const progress = 0;
-  const [volumeLevel, setVolumeLevel] = useState<number>(progress);
-
-  const handleDragStart = useCallback(() => {
-    setVolumeLevel(progress);
-  }, [progress, setVolumeLevel]);
 
   const handleDragChange = useCallback((_: Event, value: number) => {
     if (audioRef != null) {
@@ -23,7 +16,6 @@ export const VolumeControl = () => {
 
   const handleDragEnd = (_: Event, volume: number) => {
     setVolume(volume);
-    setVolumeLevel(volume);
   };
 
 
@@ -61,14 +53,14 @@ export const VolumeControl = () => {
                     height: 3,
                     // margin: "0 0 0 0",
                     // padding: "0 0 0 0",
-                    width: "60%",
+                    width: "17rem",
                     // "& .MuiSlider-track": { display: "none" },
                     // "& .MuiSlider-rail": { display: "none" },
                     '& .MuiSlider-thumb': { width: "1rem", height: "1rem" },
                   }}
                   onChange={(_, v) => handleDragChange(_, v as number)}
-                  onMouseDown={handleDragStart}
-                  onTouchStart={handleDragStart}
+                  // onMouseDown={handleDragStart}
+                  // onTouchStart={handleDragStart}
             /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
             // @ts-expect-error
                   onChangeCommitted={(_, v) => handleDragEnd(_, v as number)}
@@ -79,14 +71,15 @@ export const VolumeControl = () => {
         </Box>
 
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2, width: "60%", }}>
-        <Typography variant="caption">
-          {/*{formatTime(currentTime)}*/}
-        </Typography>
-        <Typography variant="caption">
-          {volumeLevel}
-        </Typography>
-      </Box>
+      <Box sx={{ height: "2rem"}}></Box>
+      {/*<Box sx={{ display: "flex", justifyContent: "space-between", mt: 2, width: "60%", }}>*/}
+      {/*  <Typography variant="caption">*/}
+      {/*    /!*{formatTime(currentTime)}*!/*/}
+      {/*  </Typography>*/}
+      {/*  <Typography variant="caption">*/}
+      {/*    {volumeLevel}*/}
+      {/*  </Typography>*/}
+      {/*</Box>*/}
     </Box>
   );
 };
